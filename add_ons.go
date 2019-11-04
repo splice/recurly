@@ -73,6 +73,21 @@ func (u UnitAmount) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	return nil
 }
 
+// PlanUnitAmount can read or write amounts in various currencies.
+type PlanUnitAmount struct {
+	USD int `xml:"USD"`
+}
+
+// MarshalXML ensures PlanUnitAmount is not marshaled unless one or more currencies
+// has a value greater than zero.
+func (u PlanUnitAmount) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	if u.USD >= 0 {
+		type uaAlias PlanUnitAmount
+		e.EncodeElement(uaAlias(u), start)
+	}
+	return nil
+}
+
 var _ AddOnsService = &addOnsImpl{}
 
 // addOnsImpl implements AddOnsService.
