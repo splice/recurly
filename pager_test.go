@@ -6,8 +6,8 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/blacklightcms/recurly"
 	"github.com/google/go-cmp/cmp"
+	"github.com/splice/recurly"
 )
 
 func TestPager(t *testing.T) {

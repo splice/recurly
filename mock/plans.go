@@ -3,7 +3,7 @@ package mock
 import (
 	"context"
 
-	"github.com/blacklightcms/recurly"
+	"github.com/splice/recurly"
 )
 
 var _ recurly.PlansService = &PlansService{}

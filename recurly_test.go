@@ -14,8 +14,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/blacklightcms/recurly"
 	"github.com/google/go-cmp/cmp"
+	"github.com/splice/recurly"
 )
 
 // MustOpenFile opens a file in the testdata directory.
