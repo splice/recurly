@@ -30,7 +30,7 @@ go get github.com/blacklightcms/recurly
 
 Import:
 ```go
-import "github.com/blacklightcms/recurly"
+import "github.com/splice/recurly"
 ```
 
 Resources:
@@ -75,8 +75,8 @@ account, err := client.Accounts.Create(ctx, recurly.Account{
 })
 ```
 
-> **NOTE**: An account can also be created along a subscription by embedding the 
-> account in the subscription during creation. The purchases API also supports 
+> **NOTE**: An account can also be created along a subscription by embedding the
+> account in the subscription during creation. The purchases API also supports
 > this, and likely other endpoints. See Recurly's documentation for details.
 
 ### Get Account
@@ -141,14 +141,14 @@ if err != nil {
     return err
 }
 ```
-> **NOTE**: Recurly offers several other ways to create subscriptions, often embedded 
-> within other requests (such as the `Purchases.Create()` call). See Recurly's 
+> **NOTE**: Recurly offers several other ways to create subscriptions, often embedded
+> within other requests (such as the `Purchases.Create()` call). See Recurly's
 > documentation for more details.
 
 ## Webhooks
-This library supports webhooks via the `webhooks` sub package. 
+This library supports webhooks via the `webhooks` sub package.
 
-The usage is to parse the webhook from a reader, then use a switch statement 
+The usage is to parse the webhook from a reader, then use a switch statement
 to determine the type of webhook received.
 
 ```go
@@ -179,11 +179,11 @@ default:
 ## Testing
 Once you've imported this library into your application, you will want to add tests.
 
-Internally this library sets up a test HTTPs server and validates methods, paths, 
+Internally this library sets up a test HTTPs server and validates methods, paths,
 query strings, request body, and returns XML. You will not need to worry about those internals
 when testing your own code that uses this library.
 
-Instead we recommend using the `mock` package. The `mock` package provides mocks 
+Instead we recommend using the `mock` package. The `mock` package provides mocks
 for all of the different services in this library.
 
 For examples of how to test your code using mocks, visit the [GoDoc examples](https://godoc.org/github.com/blacklightcms/recurly/mock/).
@@ -192,7 +192,7 @@ For examples of how to test your code using mocks, visit the [GoDoc examples](ht
 
 ## Contributing
 
-We use [`dep`](https://github.com/golang/dep) for dependency management. If you 
+We use [`dep`](https://github.com/golang/dep) for dependency management. If you
 do not have it installed, see the [installation instructions](https://github.com/golang/dep#installation).
 
 To contribute: fork and clone the repository, `cd` into the directory, and run:

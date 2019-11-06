@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/blacklightcms/recurly"
+	"github.com/splice/recurly"
 	"github.com/blacklightcms/recurly/webhooks"
 	"github.com/google/go-cmp/cmp"
 )

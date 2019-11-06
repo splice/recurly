@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/blacklightcms/recurly"
 	"github.com/google/go-cmp/cmp"
+	"github.com/splice/recurly"
 )
 
 func TestTransactions_List(t *testing.T) {

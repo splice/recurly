@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/blacklightcms/recurly"
 	"github.com/google/go-cmp/cmp"
+	"github.com/splice/recurly"
 )
 
 // Ensure structs are encoded to XML properly.

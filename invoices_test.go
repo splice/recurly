@@ -9,8 +9,8 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/blacklightcms/recurly"
 	"github.com/google/go-cmp/cmp"
+	"github.com/splice/recurly"
 )
 
 func TestInvoices_Encoding(t *testing.T) {

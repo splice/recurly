@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/blacklightcms/recurly"
 	"github.com/google/go-cmp/cmp"
+	"github.com/splice/recurly"
 )
 
 func TestShippingMethods_Get(t *testing.T) {
