@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<subscription href="">
+  <account href="https://splicetest2.recurly.com/v2/accounts/2"/>
+  <address>
+    <name>Splice Test</name>
+    <address1>123 Main Street</address1>
+    <address2 nil="nil"></address2>
+    <city>Pittsburgh</city>
+    <state>PA</state>
+    <zip>15215</zip>
+    <country>US</country>
+    <phone nil="nil"></phone>
+  </address>
+  <plan href="https://splicetest2.recurly.com/v2/plans/gold">
+    <plan_code>gold</plan_code>
+    <name>Gold plan</name>
+  </plan>
+  <auto_renew type="boolean">false</auto_renew>
+  <renewal_billing_cycles type="integer">1</renewal_billing_cycles>
+  <current_term_started_at type="datetime"></current_term_started_at>
+  <current_term_ends_at type="datetime"></current_term_ends_at>
+  <revenue_schedule_type>evenly</revenue_schedule_type>
+  <uuid>5378bc16986a08eb96b74345ec952abe</uuid>
+  <state>active</state>
+  <unit_amount_in_cents type="integer">799</unit_amount_in_cents>
+  <currency>USD</currency>
+  <quantity type="integer">1</quantity>
+  <activated_at type="datetime">2020-05-12T00:00:00Z</activated_at>
+  <canceled_at nil="nil"></canceled_at>
+  <expires_at nil="nil"></expires_at>
+  <updated_at nil="nil"></updated_at>
+  <total_billing_cycles type="integer">1</total_billing_cycles>
+  <remaining_billing_cycles type="integer">0</remaining_billing_cycles>
+  <current_period_started_at type="datetime">2020-05-12T00:00:00Z</current_period_started_at>
+  <current_period_ends_at type="datetime">2020-06-12T00:00:00Z</current_period_ends_at>
+  <trial_started_at nil="nil"></trial_started_at>
+  <trial_ends_at nil="nil"></trial_ends_at>
+  <terms_and_conditions nil="nil"></terms_and_conditions>
+  <customer_notes nil="nil"></customer_notes>
+  <started_with_gift type="boolean">false</started_with_gift>
+  <converted_at nil="nil"></converted_at>
+  <imported_trial type="boolean">false</imported_trial>
+  <paused_at nil="nil"></paused_at>
+  <remaining_pause_cycles nil="nil"></remaining_pause_cycles>
+  <no_billing_info_reason></no_billing_info_reason>
+  <gateway_code nil="nil"></gateway_code>
+  <cost_in_cents type="integer">799</cost_in_cents>
+  <po_number nil="nil"></po_number>
+  <net_terms type="integer">0</net_terms>
+  <collection_method>automatic</collection_method>
+  <shipping_amount_in_cents>0</shipping_amount_in_cents>
+  <shipping_method_code nil="nil"></shipping_method_code>
+  <subscription_add_ons type="array">
+  </subscription_add_ons>
+  <custom_fields type="array">
+  </custom_fields>
+  <invoice_collection>
+    <charge_invoice>
+      <account href="https://splicetest2.recurly.com/v2/accounts/2"/>
+      <address>
+        <name_on_account nil="nil"></name_on_account>
+        <first_name>Splice</first_name>
+        <last_name>Test</last_name>
+        <company></company>
+        <address1>123 Main Street</address1>
+        <address2 nil="nil"></address2>
+        <city>Pittsburgh</city>
+        <state>PA</state>
+        <zip>15215</zip>
+        <country>US</country>
+        <phone nil="nil"></phone>
+      </address>
+      <uuid>5378bc1702932a2d5827814944b05f2b</uuid>
+      <state>pending</state>
+      <invoice_number_prefix></invoice_number_prefix>
+      <invoice_number type="integer"> 1234</invoice_number>
+      <vat_number nil="nil"></vat_number>
+      <tax_in_cents type="integer">56</tax_in_cents>
+      <total_in_cents type="integer">855</total_in_cents>
+      <currency>USD</currency>
+      <created_at nil="nil"></created_at>
+      <updated_at nil="nil"></updated_at>
+      <attempt_next_collection_at type="datetime">2020-05-12T17:31:18Z</attempt_next_collection_at>
+      <closed_at nil="nil"></closed_at>
+      <customer_notes></customer_notes>
+      <recovery_reason nil="nil"></recovery_reason>
+      <gateway_code nil="nil"></gateway_code>
+      <subtotal_before_discount_in_cents type="integer">799</subtotal_before_discount_in_cents>
+      <subtotal_in_cents type="integer">799</subtotal_in_cents>
+      <discount_in_cents type="integer">0</discount_in_cents>
+      <due_on type="datetime">2020-05-12T17:31:18Z</due_on>
+      <balance_in_cents type="integer">855</balance_in_cents>
+      <type>charge</type>
+      <origin>purchase</origin>
+      <refundable_total_in_cents type="integer">855</refundable_total_in_cents>
+      <credit_payments type="array">
+      </credit_payments>
+      <net_terms type="integer">0</net_terms>
+      <collection_method>automatic</collection_method>
+      <po_number nil="nil"></po_number>
+      <terms_and_conditions></terms_and_conditions>
+      <tax_type>usst</tax_type>
+      <tax_region>PA</tax_region>
+      <tax_rate type="float">0.07</tax_rate>
+      <line_items type="array">
+        <adjustment type="charge">
+          <account href="https://splicetest2.recurly.com/v2/accounts/2"/>
+          <refundable_total_in_cents type="integer">855</refundable_total_in_cents>
+          <uuid>5378bc16eba88c23ebcfa342dc8f92b6</uuid>
+          <state>pending</state>
+          <description>sounds test taxable</description>
+          <accounting_code></accounting_code>
+          <product_code>sounds-test-taxable</product_code>
+          <origin>plan</origin>
+          <unit_amount_in_cents type="integer">799</unit_amount_in_cents>
+          <quantity type="integer">1</quantity>
+          <discount_in_cents type="integer">0</discount_in_cents>
+          <tax_in_cents type="integer">56</tax_in_cents>
+          <total_in_cents type="integer">855</total_in_cents>
+          <currency>USD</currency>
+          <proration_rate nil="nil"></proration_rate>
+          <taxable type="boolean">false</taxable>
+          <tax_type>usst</tax_type>
+          <tax_region>PA</tax_region>
+          <tax_rate type="float">0.07</tax_rate>
+          <tax_exempt type="boolean">false</tax_exempt>
+          <tax_code></tax_code>
+          <start_date type="datetime">2020-05-12T17:31:18Z</start_date>
+          <end_date type="datetime">2020-06-12T17:31:18Z</end_date>
+          <created_at nil="nil"></created_at>
+          <updated_at nil="nil"></updated_at>
+          <revenue_schedule_type>evenly</revenue_schedule_type>
+        </adjustment>
+      </line_items>
+      <transactions type="array">
+      </transactions>
+    </charge_invoice>
+    <credit_invoices type="array">
+    </credit_invoices>
+  </invoice_collection>
+</subscription>

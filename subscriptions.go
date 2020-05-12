@@ -198,7 +198,7 @@ func (s *Subscription) UnmarshalXML(d *xml.Decoder, start xml.StartElement) erro
 		subscriptionAlias
 		XMLName            xml.Name `xml:"subscription"`
 		AccountCode        href     `xml:"account"`
-		InvoiceNumber      int      `xml:"invoice_collection>invoice_number"`
+		InvoiceNumber      int      `xml:"invoice_collection>charge_invoice>invoice_number"`
 		TaxInCents         int      `xml:"invoice_collection>charge_invoice>tax_in_cents"`
 		TaxType            string   `xml:"invoice_collection>charge_invoice>tax_type"`
 		TaxRegion          string   `xml:"invoice_collection>charge_invoice>tax_region"`
