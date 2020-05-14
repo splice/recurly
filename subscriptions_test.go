@@ -762,14 +762,14 @@ func TestSubscriptions_Preview(t *testing.T) {
 
 	s.HandleFunc("POST", "/v2/subscriptions/preview", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusCreated)
-		w.Write(MustOpenFile("subscription.xml"))
+		w.Write(MustOpenFile("preview_subscription.xml"))
 	}, t)
 
 	if subscription, err := client.Subscriptions.Preview(context.Background(), recurly.NewSubscription{}); !s.Invoked {
 		t.Fatal("expected fn invocation")
 	} else if err != nil {
 		t.Fatal(err)
-	} else if diff := cmp.Diff(subscription, NewTestSubscription()); diff != "" {
+	} else if diff := cmp.Diff(subscription, NewTestPreviewSubscription()); diff != "" {
 		t.Fatal(diff)
 	}
 }
@@ -1080,5 +1080,36 @@ func NewTestSubscription() *recurly.Subscription {
 				},
 			},
 		},
+	}
+}
+
+// Returns a Subscription corresponding to testdata/preview_subscription.xml.
+func NewTestPreviewSubscription() *recurly.Subscription {
+	return &recurly.Subscription{
+		XMLName: xml.Name{Local: "subscription"},
+		Plan: recurly.NestedPlan{
+			Code: "gold",
+			Name: "Gold plan",
+		},
+		AccountCode:            "2",
+		InvoiceNumber:          1234,
+		UUID:                   "5378bc16986a08eb96b74345ec952abe", // UUID has been sanitized
+		State:                  "active",
+		NetTerms:               recurly.NewInt(0),
+		UnitAmountInCents:      799,
+		Currency:               "USD",
+		Quantity:               1,
+		ActivatedAt:            recurly.NewTime(time.Date(2020, time.May, 12, 0, 0, 0, 0, time.UTC)),
+		CurrentPeriodStartedAt: recurly.NewTime(time.Date(2020, time.May, 12, 0, 0, 0, 0, time.UTC)),
+		CurrentPeriodEndsAt:    recurly.NewTime(time.Date(2020, time.June, 12, 0, 0, 0, 0, time.UTC)),
+		TaxInCents:             56,
+		TotalAmountInCents:     855,
+		TaxType:                "usst",
+		TaxRegion:              "PA",
+		TaxRate:                0.07,
+		CollectionMethod:       "automatic",
+		RenewalBillingCycles:   recurly.NewInt(1),
+		RemainingBillingCycles: recurly.NewInt(0),
+		CustomFields:           &recurly.CustomFields{},
 	}
 }

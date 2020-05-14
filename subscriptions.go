@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"net/http"
 	"sort"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -125,7 +124,7 @@ type Subscription struct {
 	UnitAmountInCents      int                  `xml:"unit_amount_in_cents,omitempty"`
 	Currency               string               `xml:"currency,omitempty"`
 	Quantity               int                  `xml:"quantity,omitempty"`
-	TotalAmountInCents     int                  `xml:"total_amount_in_cents,omitempty"`
+	TotalAmountInCents     int                  `xml:"-"`
 	ActivatedAt            NullTime             `xml:"activated_at,omitempty"`
 	CanceledAt             NullTime             `xml:"canceled_at,omitempty"`
 	ExpiresAt              NullTime             `xml:"expires_at,omitempty"`
@@ -135,10 +134,10 @@ type Subscription struct {
 	TrialEndsAt            NullTime             `xml:"trial_ends_at,omitempty"`
 	PausedAt               NullTime             `xml:"paused_at,omitempty"`
 	ResumeAt               NullTime             `xml:"resume_at,omitempty"`
-	TaxInCents             int                  `xml:"tax_in_cents,omitempty"`
-	TaxType                string               `xml:"tax_type,omitempty"`
-	TaxRegion              string               `xml:"tax_region,omitempty"`
-	TaxRate                float64              `xml:"tax_rate,omitempty"`
+	TaxInCents             int                  `xml:"-"`
+	TaxType                string               `xml:"-"`
+	TaxRegion              string               `xml:"-"`
+	TaxRate                float64              `xml:"-"`
 	PONumber               string               `xml:"po_number,omitempty"`
 	NetTerms               NullInt              `xml:"net_terms,omitempty"`
 	SubscriptionAddOns     []SubscriptionAddOn  `xml:"subscription_add_ons>subscription_add_on,omitempty"`
@@ -197,9 +196,14 @@ func (s *Subscription) UnmarshalXML(d *xml.Decoder, start xml.StartElement) erro
 	type subscriptionAlias Subscription
 	var v struct {
 		subscriptionAlias
-		XMLName       xml.Name `xml:"subscription"`
-		AccountCode   href     `xml:"account"`
-		InvoiceNumber href     `xml:"invoice"`
+		XMLName            xml.Name `xml:"subscription"`
+		AccountCode        href     `xml:"account"`
+		InvoiceNumber      int      `xml:"invoice_collection>charge_invoice>invoice_number"`
+		TaxInCents         int      `xml:"invoice_collection>charge_invoice>tax_in_cents"`
+		TaxType            string   `xml:"invoice_collection>charge_invoice>tax_type"`
+		TaxRegion          string   `xml:"invoice_collection>charge_invoice>tax_region"`
+		TaxRate            float64  `xml:"invoice_collection>charge_invoice>tax_rate"`
+		TotalAmountInCents int      `xml:"invoice_collection>charge_invoice>total_in_cents"`
 	}
 	if err := d.DecodeElement(&v, &start); err != nil {
 		return err
@@ -208,7 +212,12 @@ func (s *Subscription) UnmarshalXML(d *xml.Decoder, start xml.StartElement) erro
 	*s = Subscription(v.subscriptionAlias)
 	s.XMLName = v.XMLName
 	s.AccountCode = v.AccountCode.LastPartOfPath()
-	s.InvoiceNumber, _ = strconv.Atoi(v.InvoiceNumber.LastPartOfPath())
+	s.InvoiceNumber = v.InvoiceNumber
+	s.TaxInCents = v.TaxInCents
+	s.TaxType = v.TaxType
+	s.TaxRegion = v.TaxRegion
+	s.TaxRate = v.TaxRate
+	s.TotalAmountInCents = v.TotalAmountInCents
 	return nil
 }
 
