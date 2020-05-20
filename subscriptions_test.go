@@ -769,7 +769,7 @@ func TestSubscriptions_Preview(t *testing.T) {
 		t.Fatal("expected fn invocation")
 	} else if err != nil {
 		t.Fatal(err)
-	} else if diff := cmp.Diff(subscription, NewTestPreviewSubscription()); diff != "" {
+	} else if diff := cmp.Diff(subscription, NewTestSubscriptionPreview()); diff != "" {
 		t.Fatal(diff)
 	}
 }
@@ -1004,6 +1004,8 @@ func NewTestSubscription() *recurly.Subscription {
 			Name: "Gold plan",
 		},
 		AccountCode:            "1",
+		AutoRenew:              true,
+		CollectionMethod:       "automatic",
 		InvoiceNumber:          1108,
 		UUID:                   "44f83d7cba354d5b84812419f923ea96", // UUID has been sanitized
 		State:                  "active",
@@ -1013,10 +1015,10 @@ func NewTestSubscription() *recurly.Subscription {
 		ActivatedAt:            recurly.NewTime(time.Date(2011, time.May, 27, 7, 0, 0, 0, time.UTC)),
 		CurrentPeriodStartedAt: recurly.NewTime(time.Date(2011, time.June, 27, 7, 0, 0, 0, time.UTC)),
 		CurrentPeriodEndsAt:    recurly.NewTime(time.Date(2011, time.July, 27, 7, 0, 0, 0, time.UTC)),
-		TaxInCents:             72,
-		TaxType:                "usst",
-		TaxRegion:              "CA",
-		TaxRate:                0.0875,
+		CurrentTermStartedAt:   recurly.NewTime(time.Date(2020, time.May, 20, 18, 13, 8, 0, time.UTC)),
+		CurrentTermEndsAt:      recurly.NewTime(time.Date(2020, time.July, 3, 18, 13, 8, 0, time.UTC)),
+		RenewalBillingCycles:   recurly.NewInt(1),
+		RemainingBillingCycles: recurly.NewInt(1),
 		NetTerms:               recurly.NewInt(0),
 		CustomerNotes:          "customer_notes_test_get",
 		SubscriptionAddOns: []recurly.SubscriptionAddOn{
@@ -1056,36 +1058,12 @@ func NewTestSubscription() *recurly.Subscription {
 			"device_id":     "KIWTL-WER-ZXMRD",
 			"purchase_date": "2017-01-23",
 		},
-		InvoiceCollection: &recurly.InvoiceCollection{
-			XMLName: xml.Name{Local: "invoice_collection"},
-			ChargeInvoice: &recurly.Invoice{
-				XMLName:     xml.Name{Local: "invoice"},
-				AccountCode: "1",
-				UUID:        "43adfe52c21cbb221557a24940bcd7e5",
-				State:       recurly.ChargeInvoiceStatePending,
-			},
-			CreditInvoices: []recurly.Invoice{
-				{
-					XMLName:         xml.Name{Local: "invoice"},
-					AccountCode:     "1",
-					UUID:            "43adfe52c21cbb221557a24940bcd7e5",
-					State:           recurly.CreditInvoiceStateOpen,
-					TotalInCents:    -4014,
-					Currency:        "USD",
-					SubtotalInCents: -4014,
-					DiscountInCents: -436,
-					BalanceInCents:  -2444,
-					Type:            "credit",
-					Origin:          "immediate_change",
-				},
-			},
-		},
 	}
 }
 
 // Returns a Subscription corresponding to testdata/preview_subscription.xml.
-func NewTestPreviewSubscription() *recurly.Subscription {
-	return &recurly.Subscription{
+func NewTestSubscriptionPreview() *recurly.SubscriptionPreview {
+	return &recurly.SubscriptionPreview{
 		XMLName: xml.Name{Local: "subscription"},
 		Plan: recurly.NestedPlan{
 			Code: "gold",
