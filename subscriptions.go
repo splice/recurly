@@ -40,7 +40,7 @@ type SubscriptionsService interface {
 	// Preview returns a preview for a new subscription applied to an account.
 	//
 	// https://dev.recurly.com/docs/preview-subscription
-	Preview(ctx context.Context, sub NewSubscription) (*Subscription, error)
+	Preview(ctx context.Context, sub NewSubscription) (*SubscriptionPreview, error)
 
 	// Update updates a subscription that takes place immediately or at renewal
 	// based on sub.Timeframe. You can optionally send subscription add ons.
@@ -124,6 +124,43 @@ type Subscription struct {
 	UnitAmountInCents      int                  `xml:"unit_amount_in_cents,omitempty"`
 	Currency               string               `xml:"currency,omitempty"`
 	Quantity               int                  `xml:"quantity,omitempty"`
+	ActivatedAt            NullTime             `xml:"activated_at,omitempty"`
+	CanceledAt             NullTime             `xml:"canceled_at,omitempty"`
+	ExpiresAt              NullTime             `xml:"expires_at,omitempty"`
+	CurrentPeriodStartedAt NullTime             `xml:"current_period_started_at,omitempty"`
+	CurrentPeriodEndsAt    NullTime             `xml:"current_period_ends_at,omitempty"`
+	TrialStartedAt         NullTime             `xml:"trial_started_at,omitempty"`
+	TrialEndsAt            NullTime             `xml:"trial_ends_at,omitempty"`
+	PausedAt               NullTime             `xml:"paused_at,omitempty"`
+	ResumeAt               NullTime             `xml:"resume_at,omitempty"`
+	PONumber               string               `xml:"po_number,omitempty"`
+	NetTerms               NullInt              `xml:"net_terms,omitempty"`
+	SubscriptionAddOns     []SubscriptionAddOn  `xml:"subscription_add_ons>subscription_add_on,omitempty"`
+	CurrentTermStartedAt   NullTime             `xml:"current_term_started_at,omitempty"`
+	CurrentTermEndsAt      NullTime             `xml:"current_term_ends_at,omitempty"`
+	PendingSubscription    *PendingSubscription `xml:"pending_subscription,omitempty"`
+	InvoiceCollection      *InvoiceCollection   `xml:"invoice_collection,omitempty"`
+	RemainingPauseCycles   int                  `xml:"remaining_pause_cycles,omitempty"`
+	CollectionMethod       string               `xml:"collection_method"`
+	CustomerNotes          string               `xml:"customer_notes,omitempty"`
+	AutoRenew              bool                 `xml:"auto_renew,omitempty"`
+	RenewalBillingCycles   NullInt              `xml:"renewal_billing_cycles,omitempty"`
+	RemainingBillingCycles NullInt              `xml:"remaining_billing_cycles,omitempty"`
+	GatewayCode            string               `xml:"gateway_code,omitempty"`
+	CustomFields           *CustomFields        `xml:"custom_fields,omitempty"`
+}
+
+// SubscriptionPreview represents a preview of subscription.
+type SubscriptionPreview struct {
+	XMLName                xml.Name             `xml:"subscription"`
+	Plan                   NestedPlan           `xml:"plan,omitempty"`
+	AccountCode            string               `xml:"-"`
+	InvoiceNumber          int                  `xml:"-"`
+	UUID                   string               `xml:"uuid,omitempty"`
+	State                  string               `xml:"state,omitempty"`
+	UnitAmountInCents      int                  `xml:"unit_amount_in_cents,omitempty"`
+	Currency               string               `xml:"currency,omitempty"`
+	Quantity               int                  `xml:"quantity,omitempty"`
 	TotalAmountInCents     int                  `xml:"-"`
 	ActivatedAt            NullTime             `xml:"activated_at,omitempty"`
 	CanceledAt             NullTime             `xml:"canceled_at,omitempty"`
@@ -196,6 +233,27 @@ func (s *Subscription) UnmarshalXML(d *xml.Decoder, start xml.StartElement) erro
 	type subscriptionAlias Subscription
 	var v struct {
 		subscriptionAlias
+		XMLName       xml.Name `xml:"subscription"`
+		AccountCode   href     `xml:"account"`
+		InvoiceNumber hrefInt  `xml:"invoice"`
+	}
+	if err := d.DecodeElement(&v, &start); err != nil {
+		return err
+	}
+
+	*s = Subscription(v.subscriptionAlias)
+	s.XMLName = v.XMLName
+	s.AccountCode = v.AccountCode.LastPartOfPath()
+	s.InvoiceNumber = v.InvoiceNumber.LastPartOfPath()
+	return nil
+}
+
+// UnmarshalXML unmarshals transactions and handles intermediary state during unmarshaling
+// for types like href.
+func (s *SubscriptionPreview) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	type subscriptionAlias SubscriptionPreview
+	var v struct {
+		subscriptionAlias
 		XMLName            xml.Name `xml:"subscription"`
 		AccountCode        href     `xml:"account"`
 		InvoiceNumber      int      `xml:"invoice_collection>charge_invoice>invoice_number"`
@@ -209,7 +267,7 @@ func (s *Subscription) UnmarshalXML(d *xml.Decoder, start xml.StartElement) erro
 		return err
 	}
 
-	*s = Subscription(v.subscriptionAlias)
+	*s = SubscriptionPreview(v.subscriptionAlias)
 	s.XMLName = v.XMLName
 	s.AccountCode = v.AccountCode.LastPartOfPath()
 	s.InvoiceNumber = v.InvoiceNumber
@@ -380,13 +438,13 @@ func (s *subscriptionsImpl) Create(ctx context.Context, sub NewSubscription) (*S
 	return &dst, err
 }
 
-func (s *subscriptionsImpl) Preview(ctx context.Context, sub NewSubscription) (*Subscription, error) {
+func (s *subscriptionsImpl) Preview(ctx context.Context, sub NewSubscription) (*SubscriptionPreview, error) {
 	req, err := s.client.newRequest("POST", "/subscriptions/preview", sub)
 	if err != nil {
 		return nil, err
 	}
 
-	var dst Subscription
+	var dst SubscriptionPreview
 	if _, err := s.client.do(ctx, req, &dst); err != nil {
 		return nil, err
 	}
