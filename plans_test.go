@@ -237,6 +237,19 @@ func TestPlans_Encoding(t *testing.T) {
 				</plan>
 			`),
 		},
+		{
+			v: recurly.Plan{Name: "Gold plan", UnitAmountInCents: recurly.PlanUnitAmount{USD: 1500}, TaxCode: "physical", TrialRequiresBillingInfo: recurly.NewBool(true)},
+			expected: MustCompactString(`
+				<plan>
+					<name>Gold plan</name>
+					<trial_requires_billing_info>true</trial_requires_billing_info>
+					<tax_code>physical</tax_code>
+					<unit_amount_in_cents>
+					<USD>1500</USD>
+					</unit_amount_in_cents>
+				</plan>
+			`),
+		},
 	}
 
 	for i, tt := range tests {
@@ -369,9 +382,9 @@ func TestPlans_Delete(t *testing.T) {
 
 func NewTestPlan() *recurly.Plan {
 	return &recurly.Plan{
-		XMLName: xml.Name{Local: "plan"},
-		Code:    "gold",
-		Name:    "Gold plan",
+		XMLName:                  xml.Name{Local: "plan"},
+		Code:                     "gold",
+		Name:                     "Gold plan",
 		DisplayDonationAmounts:   recurly.NewBool(false),
 		DisplayQuantity:          recurly.NewBool(false),
 		DisplayPhoneNumber:       recurly.NewBool(false),
@@ -380,6 +393,7 @@ func NewTestPlan() *recurly.Plan {
 		IntervalUnit:             "months",
 		IntervalLength:           1,
 		TrialIntervalUnit:        "days",
+		TrialRequiresBillingInfo: recurly.NewBool(false),
 		TaxExempt:                recurly.NewBool(false),
 		UnitAmountInCents: recurly.PlanUnitAmount{
 			USD: 6000,
