@@ -63,7 +63,7 @@ type Plan struct {
 	CreatedAt                NullTime       `xml:"created_at,omitempty"`
 	TaxExempt                NullBool       `xml:"tax_exempt,omitempty"`
 	TaxCode                  string         `xml:"tax_code,omitempty"`
-	AutoRenew                bool           `xml:"auto_renew,omitempty"`
+	AutoRenew                NullBool       `xml:"auto_renew,omitempty"`
 	UnitAmountInCents        PlanUnitAmount `xml:"unit_amount_in_cents"`
 	SetupFeeInCents          UnitAmount     `xml:"setup_fee_in_cents,omitempty"`
 }

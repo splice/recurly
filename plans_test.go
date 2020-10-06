@@ -90,7 +90,7 @@ func TestPlans_Encoding(t *testing.T) {
 			`),
 		},
 		{
-			v: recurly.Plan{Name: "Gold plan", AutoRenew: true, UnitAmountInCents: recurly.PlanUnitAmount{USD: 1500}, TrialIntervalLength: 10},
+			v: recurly.Plan{Name: "Gold plan", AutoRenew: recurly.NewBool(true), UnitAmountInCents: recurly.PlanUnitAmount{USD: 1500}, TrialIntervalLength: 10},
 			expected: MustCompactString(`
 				<plan>
 					<name>Gold plan</name>
