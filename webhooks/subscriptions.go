@@ -8,6 +8,7 @@ const (
 	NewSubscription            = "new_subscription_notification"
 	UpdatedSubscription        = "updated_subscription_notification"
 	RenewedSubscription        = "renewed_subscription_notification"
+	PrerenewalSubscription     = "prerenewal_notification"
 	ExpiredSubscription        = "expired_subscription_notification"
 	CanceledSubscription       = "canceled_subscription_notification"
 	PausedSubscription         = "subscription_paused_notification"
